@@ -1,17 +1,19 @@
-package rak.pixellwp.cycling.jsonLoading
+package rak.paletteCycle.app.jsonLoading
 
-import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import rak.pixellwp.cycling.ColorCyclingImage
-import rak.pixellwp.cycling.jsonModels.*
-import java.io.*
+import rak.paletteCycle.app.display.ColorCyclingImage
+import rak.pixellwp.cycling.jsonLoading.ImageLoadedListener
+import rak.pixellwp.cycling.jsonLoading.JsonDownloadListener
+import rak.pixellwp.cycling.jsonModels.ImageCollection
+import rak.pixellwp.cycling.jsonModels.ImageInfo
+import rak.pixellwp.cycling.jsonModels.ImgJson
+import java.io.FileInputStream
+import java.io.InputStream
 import java.util.*
 
-class ImageLoader(private val context: Context) : JsonDownloadListener {
+class ImageLoader : JsonDownloadListener {
     private val logTag = "ImageLoader"
     private val images: List<ImageInfo> = loadImages()
     private val collection: List<ImageCollection> = loadCollection()
@@ -19,12 +21,14 @@ class ImageLoader(private val context: Context) : JsonDownloadListener {
     private val loadListeners: MutableList<ImageLoadedListener> = mutableListOf()
 
     private fun loadImages(): List<ImageInfo> {
-        val json = context.assets.open("Images.json")
+//        val json = context.assets.open("Images.json")
+        val json = ""
         return jacksonObjectMapper().readValue(json)
     }
 
     private fun loadCollection(): List<ImageCollection> {
-        val json = context.assets.open("ImageCollections.json")
+//        val json = context.assets.open("ImageCollections.json")
+        val json = ""
         return jacksonObjectMapper().readValue(json)
     }
 
@@ -47,9 +51,8 @@ class ImageLoader(private val context: Context) : JsonDownloadListener {
                 loadListener.imageLoadComplete(image)
             }
         } else {
-            Log.d(logTag, "${image.name} failed to download a proper json file: ${if (json.length >= 100) json.substring(0, 100) else json}")
+//            Log.d(logTag, "${image.name} failed to download a proper json file: ${if (json.length >= 100) json.substring(0, 100) else json}")
             downloading.remove(image)
-            Toast.makeText(context, "${image.name} failed to download. Please try again.", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -62,14 +65,14 @@ class ImageLoader(private val context: Context) : JsonDownloadListener {
     }
 
     fun getImageInfoForImage(imageId: String): ImageInfo {
-        Log.v(logTag, "Grabbing image info for $imageId")
+//        Log.v(logTag, "Grabbing image info for $imageId")
         return images.first { it.id == imageId }
     }
 
     fun getImageInfoForCollection(collectionName: String): ImageInfo {
         val imageCollection = collection.first { it.name == collectionName }
         val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
-        Log.v(logTag, "grabbing image info for $collectionName at hour $hour")
+//        Log.v(logTag, "grabbing image info for $collectionName at hour $hour")
         val info = imageCollection.images
                 .filter { it.startHour < hour }
                 .sortedByDescending { it.startHour }
@@ -78,7 +81,7 @@ class ImageLoader(private val context: Context) : JsonDownloadListener {
                         .sortedByDescending { it.startHour }
                         .last()
 
-        Log.d(logTag, "grabbed ${info.name} with hour ${info.startHour}")
+//        Log.d(logTag, "grabbed ${info.name} with hour ${info.startHour}")
         return info
     }
 
@@ -88,43 +91,45 @@ class ImageLoader(private val context: Context) : JsonDownloadListener {
     }
 
     fun imageIsReady(image: ImageInfo): Boolean {
-        return context.getFileStreamPath(image.fileName).exists()
+//        return context.getFileStreamPath(image.fileName).exists()
+        return false
     }
 
     fun downloadImage(image: ImageInfo) {
         if (downloading.contains(image)) {
-            Log.d(logTag, "Still attempting to download ${image.name}")
+//            Log.d(logTag, "Still attempting to download ${image.name}")
         } else {
-            Log.d(logTag, "Unable to find ${image.name} locally, downloading using id ${image.id}")
+//            Log.d(logTag, "Unable to find ${image.name} locally, downloading using id ${image.id}")
             downloading.add(image)
-            JsonDownloader(image, this).execute()
-            Toast.makeText(context, "Unable to find ${image.name} locally. I'll change the image as soon as it's downloaded", Toast.LENGTH_LONG).show()
+//            JsonDownloader(image, this).execute()
+//            Toast.makeText(context, "Unable to find ${image.name} locally. I'll change the image as soon as it's downloaded", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun saveImage(image: ImageInfo, json: String) {
         try {
-            val stream = OutputStreamWriter(context.openFileOutput(image.fileName, Context.MODE_PRIVATE))
-            stream.write(json)
-            stream.close()
+//            val stream = OutputStreamWriter(context.openFileOutput(image.fileName, Context.MODE_PRIVATE))
+//            stream.write(json)
+//            stream.close()
         } catch (e: Exception) {
-            Log.e(logTag, "Unable to save image")
+//            Log.e(logTag, "Unable to save image")
             e.printStackTrace()
         }
-        Log.d(logTag, "saved ${image.name} as ${image.fileName}")
+//        Log.d(logTag, "saved ${image.name} as ${image.fileName}")
         downloading.remove(image)
     }
 
     private fun loadInputStream(fileName: String): InputStream {
-        return if (context.getFileStreamPath(fileName).exists()) {
-            FileInputStream(context.getFileStreamPath(fileName))
-        } else {
-            val defaultFileName = "DefaultImage.json";
-            if (fileName != defaultFileName){
-                Log.e(logTag, "Couldn't load $fileName.")
-            }
-            context.assets.open(defaultFileName)
-        }
+//        return if (context.getFileStreamPath(fileName).exists()) {
+//            FileInputStream(context.getFileStreamPath(fileName))
+//        } else {
+//            val defaultFileName = "DefaultImage.json";
+//            if (fileName != defaultFileName){
+//                Log.e(logTag, "Couldn't load $fileName.")
+//            }
+//            context.assets.open(defaultFileName)
+//        }
+        return FileInputStream("")
     }
 
     private fun readJson(inputStream: InputStream): String {

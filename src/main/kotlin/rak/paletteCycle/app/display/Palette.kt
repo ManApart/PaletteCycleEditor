@@ -1,7 +1,9 @@
-package rak.pixellwp.cycling
+package rak.paletteCycle.app.display
 
-import android.graphics.Color
-import android.util.Log
+import javafx.scene.paint.Color
+import rak.pixellwp.cycling.Cycle
+import rak.pixellwp.cycling.precision
+import rak.pixellwp.cycling.precisionInt
 
 class Palette(colors: List<Int>, val cycles: List<Cycle>) {
     private val baseColors = colors
@@ -44,7 +46,7 @@ class Palette(colors: List<Int>, val cycles: List<Cycle>) {
         colors[cycle.low] = temp
     }
 
-    private fun fadeColors(sourceColor: Int, destColor: Int, frame: Int): Int {
+    private fun fadeColors(sourceColor: Int, destColor: Int, frame: Int): Color {
         val amount = Math.min(precisionInt, Math.max(0, frame))
 
         val red = blendColor(Color.red(sourceColor), Color.red(destColor), amount)

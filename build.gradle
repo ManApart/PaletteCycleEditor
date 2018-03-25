@@ -29,6 +29,7 @@ dependencies {
     compile 'no.tornado:tornadofx:1.7.14'
     testCompile 'junit:junit:4.12'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.0"
 }
 
 mainClassName = 'rak.paletteCycle.app.MyApp'

@@ -1,9 +1,6 @@
-package rak.pixellwp.cycling
+package rak.paletteCycle.app.display
 
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.util.Log
+import rak.pixellwp.cycling.Pixel
 import rak.pixellwp.cycling.jsonModels.ImgJson
 
 class ColorCyclingImage(img: ImgJson) {
