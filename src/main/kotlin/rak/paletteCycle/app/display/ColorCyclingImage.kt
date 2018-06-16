@@ -1,5 +1,6 @@
 package rak.paletteCycle.app.display
 
+import javafx.scene.paint.Paint
 import rak.pixellwp.cycling.Pixel
 import rak.pixellwp.cycling.jsonModels.ImgJson
 

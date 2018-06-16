@@ -1,11 +1,8 @@
 package rak.paletteCycle.app.display
 
 import javafx.scene.paint.Color
-import rak.pixellwp.cycling.Cycle
-import rak.pixellwp.cycling.precision
-import rak.pixellwp.cycling.precisionInt
 
-class Palette(colors: List<Int>, val cycles: List<Cycle>) {
+class Palette(colors: List<Color>, val cycles: List<Cycle>) {
     private val baseColors = colors
     var colors = baseColors.toMutableList()
 
@@ -23,7 +20,7 @@ class Palette(colors: List<Int>, val cycles: List<Cycle>) {
                 }
     }
 
-    private fun shiftColors(colors: MutableList<Int>, cycle: Cycle, amount: Double) {
+    private fun shiftColors(colors: MutableList<Color>, cycle: Cycle, amount: Double) {
         val intAmount = amount.toInt()
         for (i in 0 until intAmount) {
             val temp = colors[cycle.high]
@@ -35,7 +32,7 @@ class Palette(colors: List<Int>, val cycles: List<Cycle>) {
     }
 
     // BlendShift Technology conceived, designed and coded by Joseph Huckaby
-    private fun blendShiftColors(colors: MutableList<Int>, cycle: Cycle, amount: Double) {
+    private fun blendShiftColors(colors: MutableList<Color>, cycle: Cycle, amount: Double) {
         shiftColors(colors, cycle, amount)
 
         val remainder = Math.floor((amount - Math.floor(amount)) * precision).toInt()

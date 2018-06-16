@@ -1,4 +1,6 @@
-package rak.pixellwp.cycling
+package rak.paletteCycle.app.display
+
+import javafx.scene.paint.Color
 
 const val precision: Double = 100.0
 const val precisionInt: Int = 100
@@ -10,10 +12,10 @@ data class Cycle(val rate: Int, private val reverse: Int, val low: Int, val high
     private val adjustedRate: Float = (rate / cycleSpeed).toFloat()
 
     private fun dFloatMod(a: Float, b: Int) : Double {
-        return (Math.floor((a*precision)) % Math.floor((b*precision))) / precision
+        return (Math.floor((a* precision)) % Math.floor((b* precision))) / precision
     }
 
-    fun reverseColorsIfNecessary(colors: MutableList<Int>){
+    fun reverseColorsIfNecessary(colors: MutableList<Color>){
         if (reverse == 2){
             for (i in 0 until size/2){
                 val lowValue = colors[low+i]
